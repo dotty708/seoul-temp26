@@ -109,18 +109,24 @@ if default_start < min_date:
 if default_end > max_date:
     default_end = max_date
 
-date_range = st.date_input(
-    "궁금한 기간을 선택하세요 (시작일 ~ 종료일)",
-    value=(default_start, default_end),
-    min_value=min_date,
-    max_value=max_date,
-)
+c1, c2 = st.columns(2)
+with c1:
+    start_date = st.date_input(
+        "시작일",
+        value=default_start,
+        min_value=min_date,
+        max_value=max_date,
+        key="start_date",
+    )
+with c2:
+    end_date = st.date_input(
+        "종료일",
+        value=default_end,
+        min_value=min_date,
+        max_value=max_date,
+        key="end_date",
+    )
 
-if not isinstance(date_range, tuple) or len(date_range) != 2:
-    st.info("달력에서 시작일과 종료일을 모두 선택해주세요.")
-    st.stop()
-
-start_date, end_date = date_range
 if start_date > end_date:
     st.error("시작일이 종료일보다 늦을 수 없어요. 다시 선택해주세요.")
     st.stop()
